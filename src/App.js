@@ -1,6 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as XLSX from "xlsx";
+import { createClient } from "@supabase/supabase-js";
 
+const supabase = createClient(
+  "https://gtijnpwkxajymjyyghfr.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd0aWpucHdreGFqeW1qeXlnaGZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTU1MTcyMzYsImV4cCI6MjAxMTA5MzIzNn0.KlvqKhUnL1YPPbZ0Hy1Uk07Qrs0TGW6jnlTUm4fxc4s"
+);
+supabase.auth.signInWithPassword({
+  "email": "admin@regenx.com",
+  "password": "regenx@admin"
+})
 function allElementsEmpty(arr) {
   return arr.every((item) => item === "");
 }
@@ -57,6 +66,57 @@ const App = () => {
 
     reader.readAsBinaryString(file);
   };
+
+  useEffect(() => {
+    // for (let index = 0; index < excelData.length; index++) {
+    //   const element = excelData[index];
+    //   const body = {
+    //     phone: "84234567894",
+    //     yearOfBirth: "2000",
+    //     partner: 1,
+    //     password: "312fdsf",
+    //     name: "tam",
+    //     gender: "male",
+    //     adultNumber: 2,
+    //     childNumber: 3,
+    //     address: "test",
+    //     totalArea: 200,
+    //     farmSystem: "Monocropping",
+    //     cropId: "16b497d6-9a57-41f2-ad2b-f7b2e65fbb90",
+    //     numOfPlants: 30,
+    //     averageYield: 2000,
+    //   };
+    //   supabase.functions.invoke("profile/sign-up", { method: "POST", body });
+    // }
+    // const element = excelData[index];
+    setTimeout(() => {
+      const body = {
+        phone: "84234567894",
+        yearOfBirth: "2000",
+        partner: 1,
+        password: "312fdsf",
+        name: "tam",
+        gender: "male",
+        adultNumber: 2,
+        childNumber: 3,
+        address: "test",
+        totalArea: 200,
+        farmSystem: "Monocropping",
+        cropId: "16b497d6-9a57-41f2-ad2b-f7b2e65fbb90",
+        numOfPlants: 30,
+        averageYield: 2000,
+      };
+      supabase.functions.invoke("/profile/sign-up", { 
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          "Access-Control-Allow-Origin": "*"
+        },
+        body: JSON.stringify(body)
+       });
+    }, 1500);
+  }, []);
+
   console.log("excelData", excelData);
   console.log("excelData2", excelData2);
   console.log("excelData3", splitArrayByEmptyElement(excelData3));
